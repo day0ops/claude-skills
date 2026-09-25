@@ -1,8 +1,7 @@
 # claude-skills
 
-[![release-please](https://github.com/day0ops/claude-skills/actions/workflows/release-please.yml/badge.svg)](https://github.com/day0ops/claude-skills/actions/workflows/release-please.yml)
-[![Release](https://img.shields.io/github/v/release/day0ops/claude-skills)](https://github.com/day0ops/claude-skills/releases)
 [![License](https://img.shields.io/github/license/day0ops/claude-skills)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/day0ops/claude-skills)](https://github.com/day0ops/claude-skills/releases)
 
 Personal (non-work-specific) Claude Code skills, public since none of them
 reference confidential or company-internal detail.
@@ -19,3 +18,10 @@ at `claude-skills/`, which symlinks each skill directory from here into both
 `~/.claude/skills` and `~/.claude-work/skills` via Stow. `git submodule
 update --init --recursive` (already run on dotfiles rebuild) keeps it in
 sync - no separate clone step needed.
+
+## Releasing
+
+Trigger the `Release` workflow manually (Actions tab > Release > Run
+workflow), choosing `patch`, `minor`, or `major`. It tags the next version
+and creates a GitHub Release with auto-generated notes - no PR step, no
+elevated Actions permissions needed.

@@ -1,5 +1,9 @@
 # claude-skills
 
+[![release-please](https://github.com/day0ops/claude-skills/actions/workflows/release-please.yml/badge.svg)](https://github.com/day0ops/claude-skills/actions/workflows/release-please.yml)
+[![Release](https://img.shields.io/github/v/release/day0ops/claude-skills)](https://github.com/day0ops/claude-skills/releases)
+[![License](https://img.shields.io/github/license/day0ops/claude-skills)](LICENSE)
+
 Personal (non-work-specific) Claude Code skills, public since none of them
 reference confidential or company-internal detail.
 

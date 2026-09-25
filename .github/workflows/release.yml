@@ -1,82 +1,24 @@
 name: Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      bump_type:
-        description: 'Version bump type'
-        required: true
-        default: patch
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
-
-concurrency:
-  group: release
-  cancel-in-progress: false
+  push:
+    tags:
+      - 'v*'
 
 permissions:
   contents: write
 
 jobs:
-  tag-and-release:
-    name: Tag and Release
+  release:
+    name: Create Release
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Compute next version
-        id: version
-        env:
-          BUMP_TYPE: ${{ github.event.inputs.bump_type }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          LATEST=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          echo "Current tag: $LATEST"
-          VERSION="${LATEST#v}"
-          MAJOR=$(echo "$VERSION" | cut -d. -f1)
-          MINOR=$(echo "$VERSION" | cut -d. -f2)
-          PATCH=$(echo "$VERSION" | cut -d. -f3)
-          case "$BUMP_TYPE" in
-            major)
-              MAJOR=$((MAJOR + 1))
-              MINOR=0
-              PATCH=0
-              ;;
-            minor)
-              MINOR=$((MINOR + 1))
-              PATCH=0
-              ;;
-            patch)
-              PATCH=$((PATCH + 1))
-              ;;
-            *)
-              echo "ERROR: unknown bump_type '$BUMP_TYPE'" >&2
-              exit 1
-              ;;
-          esac
-          NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
-          echo "new_tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
-          echo "New tag: $NEW_TAG"
-
-      - name: Push tag
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag "${{ steps.version.outputs.new_tag }}"
-          git push origin "${{ steps.version.outputs.new_tag }}"
 
       - name: Create GitHub Release
         run: |
-          gh release create "${{ steps.version.outputs.new_tag }}" \
+          gh release create "${{ github.ref_name }}" \
             --generate-notes \
-            --title "${{ steps.version.outputs.new_tag }}"
+            --title "${{ github.ref_name }}"
         env:
           GH_TOKEN: ${{ github.token }}

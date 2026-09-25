@@ -21,7 +21,7 @@ sync - no separate clone step needed.
 
 ## Releasing
 
-Trigger the `Release` workflow manually (Actions tab > Release > Run
-workflow), choosing `patch`, `minor`, or `major`. It tags the next version
-and creates a GitHub Release with auto-generated notes - no PR step, no
-elevated Actions permissions needed.
+Push a `vX.Y.Z` tag (`git tag v0.2.0 && git push origin v0.2.0`); CI reacts
+to the tag push and creates a GitHub Release with auto-generated notes - no
+PR step, no elevated Actions permissions needed. Deciding the version is a
+manual, human call.
